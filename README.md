@@ -6,9 +6,9 @@ A full-stack, multimodal content analysis platform that detects AI-generated tex
 
 ## 🚀 Features
 
-- 📝 **Text Detection**: Detect AI-generated content (e.g., ChatGPT essays) using a fine-tuned RoBERTa classifier.
-- 🖼️ **Image Deepfake Detection**: Analyze images for signs of manipulation or generation.
-- 🎥 **Video Deepfake Detection**: Frame-by-frame facial analysis using CNN + LSTM models.
+- 📝 **Text Detection**: Detect AI-generated content (e.g., ChatGPT essays) using a Transformer based classifier.
+- 🖼️ **Image Deepfake Detection**: Analyze images for signs of manipulation or generation using RNN + LSTM models.
+- 🎥 **Video Deepfake Detection**: Frame-by-frame facial analysis using RNN + LSTM models.
 - 🌐 **Unified Frontend**: Jinja2-rendered HTML templates with clear navigation and result display.
 - 🐳 **Dockerized**: Fully containerized for quick deployment (e.g., Render, AWS, Azure).
 
@@ -53,8 +53,8 @@ A full-stack, multimodal content analysis platform that detects AI-generated tex
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ai-detect-platform.git
-cd ai-detect-platform
+git clone https://github.com/mukeshsundar23/AIDetect_Website_V1.git
+cd AIDetect_Website_V1
 ```
 
 ### 2. Set up virtual environment
@@ -126,9 +126,9 @@ This project is licensed under the MIT License. See the [`LICENSE`](./LICENSE) f
 
 ## 👨‍💻 Author
 
-**Sriram S Seenivasan**  
+**Mukesh Sundar P**  
 Final Year Project | Multimodal AI Content Detection  
-GitHub: [@SriramS-Dev](https://github.com/SriramS-Dev)
+GitHub: [@mukeshsundar23](https://github.com/mukeshsundar23)
 
 ---
 
