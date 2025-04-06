@@ -1,6 +1,11 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from fastapi.responses import HTMLResponse
+from fastapi.requests import Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+import os
 
 # Import model-specific logic
 from backend.model_defs.text_model import predict_text
@@ -12,6 +17,11 @@ app = FastAPI(
     description="Detects AI-generated content in text, images, and video",
     version="1.0.0"
 )
+
+# Serve static files and Jinja2 templates
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "frontend", "templates"))
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "frontend", "static")), name="static")
 
 # CORS for frontend access
 app.add_middleware(
@@ -69,3 +79,20 @@ async def image_detection(file: UploadFile = File(...)):
     Detect if an image is AI-generated using the video model.
     """
     return await predict_image(file)
+
+# Serve frontend pages
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/text", response_class=HTMLResponse)
+async def text_page(request: Request):
+    return templates.TemplateResponse("text-detection.html", {"request": request})
+
+@app.get("/image", response_class=HTMLResponse)
+async def image_page(request: Request):
+    return templates.TemplateResponse("image-detection.html", {"request": request})
+
+@app.get("/video", response_class=HTMLResponse)
+async def video_page(request: Request):
+    return templates.TemplateResponse("video-detection.html", {"request": request})
