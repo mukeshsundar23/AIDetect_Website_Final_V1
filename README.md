@@ -1,21 +1,16 @@
-# AI Content Detection Backend
+# AI-Generated Content Detection Platform
 
-This repository contains the backend service for a multi-modal AI-generated content detection system. It supports detecting AI-generated content across:
-
-- 📝 Text (e.g., ChatGPT-generated essays)
-- 🖼️ Images (e.g., deepfakes or AI-generated photos)
-- 🎥 Videos (e.g., deepfake videos)
-
-The backend is built using **FastAPI** and is packaged in a lightweight, production-ready **Docker container** for easy deployment.
+A full-stack, multimodal content analysis platform that detects AI-generated text, images (including deepfakes), and videos. Built using **FastAPI**, **deep learning models**, and a **Jinja2-based frontend**, this project brings together cutting-edge AI detection into a unified web application.
 
 ---
 
 ## 🚀 Features
 
-- 🔍 **Text Detection**: Uses a fine-tuned RoBERTa model to classify content as human-written or AI-generated.
-- 🧠 **Image & Video Deepfake Detection**: Frame-by-frame facial analysis using CNN + LSTM for deepfake detection.
-- 🐳 **Dockerized**: Fully containerized and ready to deploy on platforms like Render, Azure, or any Docker host.
-- 🌐 **REST API**: Clean, documented endpoints via FastAPI.
+- 📝 **Text Detection**: Detect AI-generated content (e.g., ChatGPT essays) using a fine-tuned RoBERTa classifier.
+- 🖼️ **Image Deepfake Detection**: Analyze images for signs of manipulation or generation.
+- 🎥 **Video Deepfake Detection**: Frame-by-frame facial analysis using CNN + LSTM models.
+- 🌐 **Unified Frontend**: Jinja2-rendered HTML templates with clear navigation and result display.
+- 🐳 **Dockerized**: Fully containerized for quick deployment (e.g., Render, AWS, Azure).
 
 ---
 
@@ -23,14 +18,29 @@ The backend is built using **FastAPI** and is packaged in a lightweight, product
 
 ```
 .
-├── api.py                # FastAPI main app
-├── model_defs/           # Contains model classes and load logic
-│   ├── text_model.py
-│   ├── image_model.py
-│   └── video_model.py
-├── models/               # Contains model weights
-│   ├── roberta-sentinel.pth
-│   └── ResNext+LSTM.pt
+├── api.py
+├── backend/
+│   ├── model_defs/
+│   │   ├── text_model.py
+│   │   ├── image_model.py
+│   │   └── video_model.py
+│   └── models/
+│       ├── text/
+│       │   ├── ai_text_model/
+│       │   └── vectorizer_model/
+│       ├── image/
+│       └── video/
+│           └── ResNext + LSTM.pt
+├── frontend/
+│   ├── scripts/
+│   │   └── script.js
+│   ├── styles/
+│   └── templates/
+│       ├── index.html
+│       ├── text-detection.html
+│       ├── image-detection.html
+│       ├── video-detection.html
+│       └── 404.html
 ├── requirements.txt
 ├── Dockerfile
 └── README.md
@@ -40,14 +50,14 @@ The backend is built using **FastAPI** and is packaged in a lightweight, product
 
 ## 🧪 Local Development
 
-### 1. Clone the repo
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ai-detector-backend.git
-cd ai-detector-backend
+git clone https://github.com/YOUR_USERNAME/ai-detect-platform.git
+cd ai-detect-platform
 ```
 
-### 2. Create a virtual environment and install dependencies
+### 2. Set up virtual environment
 
 ```bash
 python -m venv venv
@@ -55,95 +65,74 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 3. Run the API
+### 3. Run the app
 
 ```bash
 uvicorn api:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Access it at: [http://localhost:8000/docs](http://localhost:8000/docs)
+Visit [http://localhost:8000](http://localhost:8000) to access the web interface.
 
 ---
 
-## 🐳 Run with Docker
+## 🐳 Docker Deployment
 
-### 1. Build the image
+### Build and run locally:
 
 ```bash
-docker build -t aidetect_backend .
+docker build -t ai-detect-platform .
+docker run -d -p 8000:8000 ai-detect-platform
 ```
 
-### 2. Run the container
+### Push to Docker Hub
 
 ```bash
-docker run -d -p 8000:8000 aidetect_backend
+docker tag ai-detect-platform mukesh2306/aidetect_website_final_v1-server:latest
+docker push mukesh2306/aidetect_website_final_v1-server:latest
 ```
 
 ---
 
 ## ☁️ Deploy to Render
 
-1. Push your Docker image to Docker Hub:
+1. Go to [https://dashboard.render.com](https://dashboard.render.com)
+2. Click **New → Web Service → Deploy an existing image from registry**
+3. Image: `mukesh2306/aidetect_website_final_v1-server:latest`
+4. Port: `8000`
 
-```bash
-docker tag aidetect_backend mukesh2306/aidetect_website_final_v1-server:latest
-docker push mukesh2306/aidetect_website_final_v1-server:latest
-```
-
-2. Go to [https://dashboard.render.com](https://dashboard.render.com)
-3. Click **New → Web Service → Deploy an existing image from a registry**
-4. Enter:
-
-```
-Image: mukesh2306/aidetect_website_final_v1-server:latest
-Port: 8000
-```
-
-5. Done! Your API is live at:
-
+Your app will be live at:  
 ```
 https://<your-app-name>.onrender.com
 ```
 
 ---
 
-## 🛠 API Endpoints (Sample)
+## 📦 Tech Stack
 
-| Endpoint            | Method | Description                      |
-|---------------------|--------|----------------------------------|
-| `/detect/text`      | POST   | Detect if a text is AI-generated |
-| `/detect/image`     | POST   | Detect if an image is fake       |
-| `/detect/video`     | POST   | Detect deepfake in video         |
-
----
-
-## 📦 Dependencies
-
-- `FastAPI`
-- `Uvicorn`
-- `transformers`
-- `torch`
-- `opencv-python`
-- `dlib`, `face-recognition-models` (for video deepfake)
-- `pydantic`, `scikit-learn`
+- **FastAPI**
+- **PyTorch, Transformers**
+- **dlib, OpenCV**
+- **Uvicorn**
+- **Jinja2 Templates**
+- **Docker**
 
 ---
 
 ## 📃 License
 
-This project is licensed under the MIT License. See `LICENSE` for details.
+This project is licensed under the MIT License. See the [`LICENSE`](./LICENSE) file for details.
 
 ---
 
 ## 👨‍💻 Author
 
-**Sriram S Seenivasan**
-
-- GitHub: [@SriramS-Dev](https://github.com/SriramS-Dev)
-- Project Lead for AI-generated Content Detection Final Year Project
+**Sriram S Seenivasan**  
+Final Year Project | Multimodal AI Content Detection  
+GitHub: [@SriramS-Dev](https://github.com/SriramS-Dev)
 
 ---
 
-## 🗣️ Feedback & Contributions
+## 🙌 Contributions & Feedback
 
-Feel free to open issues or submit PRs for improvements. Collaboration is welcome!
+Pull requests and feedback are welcome. Open an issue for bugs, improvements, or questions.
+
