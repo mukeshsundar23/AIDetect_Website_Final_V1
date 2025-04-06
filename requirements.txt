@@ -17,6 +17,7 @@ torchaudio
 tensorflow
 tensorflow-text
 transformers
+lime
 
 # Face Recognition
 face-recognition
