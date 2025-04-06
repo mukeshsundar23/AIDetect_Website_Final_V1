@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content Detector</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <!-- Add styles to control page layout and prevent scrolling past content -->
+    <style>
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1;
+        }
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-gray-900 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold">AIDetect</a>
+            <!-- <div class="hidden md:flex space-x-6">
+                <a href="text-detection.html" class="hover:text-blue-400 transition"><i class="fas fa-font mr-2"></i>Text</a>
+                <a href="image-detection.html" class="hover:text-blue-400 transition"><i class="fas fa-image mr-2"></i>Image</a>
+                <a href="video-detection.html" class="hover:text-blue-400 transition"><i class="fas fa-video mr-2"></i>Video</a>
+            </div> -->
+            <button class="md:hidden text-xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Wrap content sections in a flex container -->
+    <div class="content-wrapper">
+        <!-- Hero Section -->
+        <section class="relative bg-gradient-to-r from-blue-900 to-purple-900 text-white py-20">
+            <!-- Hero content remains the same -->
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">Detect AI-Generated Content</h1>
+                <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Advanced detection for text, images, and videos using cutting-edge AI models</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="text-detection.html" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-medium transition shadow-lg">
+                        <i class="fas fa-font mr-2"></i>Text Detection
+                    </a>
+                    <a href="image-detection.html" class="bg-purple-500 hover:bg-purple-600 text-white px-8 py-3 rounded-lg font-medium transition shadow-lg">
+                        <i class="fas fa-image mr-2"></i>Image Detection
+                    </a>
+                    <a href="video-detection.html" class="bg-pink-500 hover:bg-pink-600 text-white px-8 py-3 rounded-lg font-medium transition shadow-lg">
+                        <i class="fas fa-video mr-2"></i>Video Detection
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-16 bg-white flex-grow">
+            <!-- Features content remains the same -->
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12">How It Works</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md">
+                        <div class="text-blue-500 text-4xl mb-4">
+                            <i class="fas fa-keyboard"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Text Analysis</h3>
+                        <p class="text-gray-600">Detect AI-generated text with high accuracy using advanced linguistic pattern recognition.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md">
+                        <div class="text-purple-500 text-4xl mb-4">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Image Verification</h3>
+                        <p class="text-gray-600">Identify AI-generated images by analyzing pixel patterns and artifacts.</p>
+                    </div>
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md">
+                        <div class="text-pink-500 text-4xl mb-4">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Video Detection</h3>
+                        <p class="text-gray-600">Spot AI-generated videos through frame-by-frame analysis and temporal consistency checks.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 AIDetect. All rights reserved.</p>
+            <div class="flex justify-center space-x-4 mt-4 items-center">
+                <a href="https://www.x.com/mukesh__2004" target="_blank" class="text-gray-400 hover:text-white transition flex items-center justify-center w-8 h-8">
+                    <span class="font-bold text-lg">𝕏</span>
+                </a>
+                <a href="https://www.github.com/mukeshsundar23" target="_blank" class="text-gray-400 hover:text-white transition flex items-center justify-center w-8 h-8">
+                    <i class="fab fa-github text-xl"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/mukeshsundarp" target="_blank" class="text-gray-400 hover:text-white transition flex items-center justify-center w-8 h-8">
+                    <i class="fab fa-linkedin text-xl"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../scripts/script.js"></script>
+</body>
+</html>

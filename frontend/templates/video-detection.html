@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Detection | AIDetect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../styles/styles.css"/>
+  <!-- Updated styles for fixed header and footer -->
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding-top: 64px; /* Height of the navbar */
+      padding-bottom: 80px; /* Height of the footer */
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+    }
+  </style>
+</head>
+<body class="font-inter bg-gray-50">
+  <nav class="bg-gray-900 text-white p-4 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+        <a href="index.html" class="text-2xl font-bold">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9.75L12 3l9 6.75V20a1 1 0 01-1 1h-5a1 1 0 01-1-1v-5H9v5a1 1 0 01-1 1H4a1 1 0 01-1-1V9.75z" />
+            </svg>
+        </a>
+      <div class="hidden md:flex space-x-6">
+        <a href="text-detection.html" class="hover:text-blue-400"><i class="fas fa-font mr-2"></i>Text</a>
+        <a href="image-detection.html" class="hover:text-blue-400"><i class="fas fa-image mr-2"></i>Image</a>
+        <a href="video-detection.html" class="text-blue-400"><i class="fas fa-video mr-2"></i>Video</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-4 py-6">
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
+      <h1 class="text-3xl font-bold text-gray-800 mb-6"><i class="fas fa-video mr-2 text-blue-500"></i>Video Detection</h1>
+      <p class="text-gray-600 mb-8">Upload a video to check if it's AI-generated or authentic.</p>
+
+      <form id="videoForm" class="mb-8">
+        <div class="mb-4">
+          <label for="videoInput" class="block text-gray-700 font-medium mb-2">Upload Video</label>
+          <label class="flex flex-col w-full h-32 border-4 border-dashed border-gray-300 hover:border-gray-400 rounded-lg cursor-pointer">
+            <div class="flex flex-col items-center justify-center pt-7">
+              <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
+              <p class="text-sm text-gray-500">Drag & drop your video here</p>
+              <p class="text-xs text-gray-400 mt-1">or click to browse (MP4 only)</p>
+            </div>
+            <input id="videoInput" type="file" class="opacity-0" accept="video/mp4"/>
+          </label>
+        </div>
+
+        <div id="videoPreviewContainer" class="hidden mb-6">
+          <h3 class="text-gray-700 font-medium mb-2">Preview</h3>
+          <video id="videoPreview" class="w-full rounded-lg shadow-sm" controls></video>
+        </div>
+
+        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition shadow-lg w-full md:w-auto">
+          <i class="fas fa-search mr-2"></i>Analyze Video
+        </button>
+      </form>
+
+      <!-- Remove frame analysis from here -->
+
+      <div id="loading" class="hidden text-center py-8">
+        <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+        <p class="text-gray-600">Analyzing video frames...</p>
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
+          <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+        </div>
+        <p id="progressText" class="text-sm text-gray-500 mt-2">Processing frame 0 of 0</p>
+      </div>
+
+      <div id="results" class="hidden bg-gray-50 p-6 rounded-lg">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Analysis Results</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-white p-4 rounded-lg shadow-sm">
+            <h3 class="font-medium text-gray-700 mb-2">AI Probability</h3>
+            <div class="h-4 bg-gray-200 rounded-full overflow-hidden">
+              <div id="aiProbabilityBar" class="h-full bg-red-500" style="width: 0%"></div>
+            </div>
+            <p id="aiProbabilityText" class="text-sm text-gray-600 mt-2">0% likely AI-generated</p>
+          </div>
+          <div class="bg-white p-4 rounded-lg shadow-sm">
+            <h3 class="font-medium text-gray-700 mb-2">Authentic Probability</h3>
+            <div class="h-4 bg-gray-200 rounded-full overflow-hidden">
+              <div id="authenticProbabilityBar" class="h-full bg-green-500" style="width: 0%"></div>
+            </div>
+            <p id="authenticProbabilityText" class="text-sm text-gray-600 mt-2">0% likely authentic</p>
+          </div>
+        </div>
+        
+        <!-- Add button to toggle frame analysis -->
+        <div class="mt-6 text-center">
+          <button id="toggleFrameAnalysis" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition shadow-md">
+            <i class="fas fa-chart-line mr-2"></i>View Frame-by-Frame Analysis
+          </button>
+        </div>
+        
+        <!-- Frame analysis section (hidden by default) -->
+        <div id="frameAnalysisSection" class="hidden mt-6">
+          <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
+            <h3 class="font-medium text-gray-700 mb-4">Confidence Over Time</h3>
+            <canvas id="confidenceChart" width="400" height="200"></canvas>
+          </div>
+          
+          <h3 class="font-medium text-gray-700 mb-2">Frame Analysis</h3>
+          <div id="frameAnalysis" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- Frame thumbnails will be added here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-gray-900 text-white py-8">
+    <div class="container mx-auto px-4 text-center">
+      <p>&copy; 2025 AIDetect. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Add Chart.js for the confidence graph -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../scripts/script.js"></script>
+</body>
+</html>
